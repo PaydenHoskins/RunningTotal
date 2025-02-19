@@ -46,13 +46,16 @@ Module RunningTotal
                 Loop Until MoveOn = True
                 Console.WriteLine()
                 Console.WriteLine("Change Owed.")
-                RunningTotal(AmountOwed)
+                RunningTotal(AmountOwed, "0")
                 Console.WriteLine(FinalTotal(AmountOwed, AmountPaid))
                 Console.WriteLine()
                 Console.WriteLine("Would you like to see complete total of today?")
                 UserInput = Console.ReadLine
                 If UserInput = "Yes" Then
-                    Console.WriteLine(RunningTotal(0))
+                    Console.WriteLine(RunningTotal(0, "1"))
+                ElseIf UserInput = "Zero" Then
+                    Console.WriteLine(RunningTotal(0, "2"))
+
                 End If
             Loop Until UserInput = "Q" Or MoveOn = True
         Loop
@@ -64,9 +67,16 @@ Module RunningTotal
         Return change
     End Function
 
-    Function RunningTotal(ByRef OwedTotal As Decimal) As Decimal
+    Function RunningTotal(ByRef OwedTotal As Decimal, ByRef Operation As String) As Decimal
         Static AddedTotal As Decimal
-        AddedTotal += OwedTotal
+        Select Case Operation
+            Case "0"
+                AddedTotal += OwedTotal
+            Case "1"
+                AddedTotal += OwedTotal
+            Case "2"
+                AddedTotal -= AddedTotal
+        End Select
         Return AddedTotal
     End Function
 End Module
